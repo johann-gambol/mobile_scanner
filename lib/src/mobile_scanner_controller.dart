@@ -26,6 +26,7 @@ class MobileScannerController extends ValueNotifier<MobileScannerState> {
     this.returnImage = false,
     this.torchEnabled = false,
     this.useNewCameraSelector = false,
+    this.setFocusOnDoubleTap = false,
   })  : detectionTimeoutMs =
             detectionSpeed == DetectionSpeed.normal ? detectionTimeoutMs : 0,
         assert(
@@ -96,6 +97,15 @@ class MobileScannerController extends ValueNotifier<MobileScannerState> {
   ///
   /// Only supported on Android.
   final bool useNewCameraSelector;
+
+  /// Adjust the focus of the camera on double tap.
+  ///
+  /// The area in which the focus can be set with double tap
+  /// corresponds to the [scanWindow]. If now [scanWindow] is given,
+  /// it will correspond to the view of the [MobileScanner].
+  ///
+  /// Defaults to false
+  final bool setFocusOnDoubleTap;
 
   /// The internal barcode controller, that listens for detected barcodes.
   final StreamController<BarcodeCapture> _barcodesController =
@@ -405,9 +415,11 @@ class MobileScannerController extends ValueNotifier<MobileScannerState> {
     await MobileScannerPlatform.instance.updateScanWindow(window);
   }
 
-  /// Set focus of camera
+  /// Set focus of the camera.
+  ///
+  /// The focus will be adjusted according to the center of the view.
   Future<void> focus() async {
-    if(_isDisposed || !value.isRunning){
+    if(!setFocusOnDoubleTap || _isDisposed || !value.isRunning){
       return;
     }
 
