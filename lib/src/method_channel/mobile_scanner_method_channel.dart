@@ -296,6 +296,11 @@ class MethodChannelMobileScanner extends MobileScannerPlatform {
   }
 
   @override
+  Future<void> focus() async {
+    await methodChannel.invokeMethod('focus');
+  }
+
+  @override
   Future<void> dispose() async {
     await stop();
   }
