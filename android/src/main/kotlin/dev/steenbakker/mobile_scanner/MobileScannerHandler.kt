@@ -128,6 +128,7 @@ class MobileScannerHandler(
             "setScale" -> setScale(call, result)
             "resetScale" -> resetScale(result)
             "updateScanWindow" -> updateScanWindow(call, result)
+            "focus" -> focus(result)
             else -> result.notImplemented()
         }
     }
@@ -273,6 +274,11 @@ class MobileScannerHandler(
     private fun updateScanWindow(call: MethodCall, result: MethodChannel.Result) {
         mobileScanner?.scanWindow = call.argument<List<Float>?>("rect")
 
+        result.success(null)
+    }
+
+    private fun focus(result: MethodChannel.Result){
+        mobileScanner?.focus()
         result.success(null)
     }
 }
