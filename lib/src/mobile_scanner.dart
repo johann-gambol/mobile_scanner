@@ -236,7 +236,8 @@ class _MobileScannerState extends State<MobileScanner>
                 scannerWidget,
                 GestureDetector(
                     onDoubleTap: () async => controller.focus(),
-                    child: overlay),
+                    child: overlay,
+                ),
               ],
             );
           },

@@ -468,7 +468,7 @@ class MobileScanner(
         val factory: MeteringPointFactory = SurfaceOrientedMeteringPointFactory(1f, 1f)
         val autoFocusPoint = factory.createPoint(.5f, .5f)
         try{
-            if(camera == null) throw FocusWhenStopped();
+            if(camera == null) throw AlreadyStopped();
             camera?.cameraControl?.startFocusAndMetering(
                     FocusMeteringAction.Builder(
                             autoFocusPoint,
