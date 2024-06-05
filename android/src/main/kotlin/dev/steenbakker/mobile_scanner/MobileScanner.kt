@@ -460,25 +460,24 @@ class MobileScanner(
             }
     }
 
+    /**
+     * Set the focus of the camera.
+     * For now the focus is adjusted according to the central point of the view.
+     */
     fun focus(){
-
-
         val factory: MeteringPointFactory = SurfaceOrientedMeteringPointFactory(1f, 1f)
         val autoFocusPoint = factory.createPoint(.5f, .5f)
         try{
-            //TODO:
-            if(camera == null) throw ZoomWhenStopped();
-            camera!!.cameraControl.startFocusAndMetering(
+            if(camera == null) throw FocusWhenStopped();
+            camera?.cameraControl?.startFocusAndMetering(
                     FocusMeteringAction.Builder(
                             autoFocusPoint,
                             FocusMeteringAction.FLAG_AF,
-                    ).apply {
-                        disableAutoCancel()
-                    }.build(),
+                    ).build(),
 
                     )
         }catch (e: Exception ) {
-            println("ERROR cannot access camera: $e")
+            mobileScannerErrorCallback(e.toString())
         }
 
     }
