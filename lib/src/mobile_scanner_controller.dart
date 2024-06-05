@@ -98,13 +98,13 @@ class MobileScannerController extends ValueNotifier<MobileScannerState> {
   /// Only supported on Android.
   final bool useNewCameraSelector;
 
-  /// Adjust the focus of the camera on double tap.
+  /// Adjusts the focus of the camera on double tap.
   ///
-  /// The area in which the focus can be set with double tap
-  /// corresponds to the [scanWindow]. If now [scanWindow] is given,
-  /// it will correspond to the view of the [MobileScanner].
+  /// The area in which the focus can be adjusted on double tap
+  /// corresponds to the [scanWindow]. If [scanWindow] is null,
+  /// the area is the equal to the full camera preview
   ///
-  /// Defaults to false
+  /// Defaults to false.
   final bool setFocusOnDoubleTap;
 
   /// The internal barcode controller, that listens for detected barcodes.
