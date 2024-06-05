@@ -473,12 +473,12 @@ class MobileScanner(
                             autoFocusPoint,
                             FocusMeteringAction.FLAG_AF,
                     ).apply {
-                        disableAutoCancel(),
+                        disableAutoCancel()
                     }.build(),
 
                     )
-        }catch (e: CameraInfoUnavailableException) {
-            Log.d("ERROR", "cannot access camera", e)
+        }catch (e: Exception ) {
+            println("ERROR cannot access camera: $e")
         }
 
     }
