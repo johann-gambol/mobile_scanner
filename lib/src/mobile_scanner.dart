@@ -217,10 +217,13 @@ class _MobileScannerState extends State<MobileScanner>
                 size: constraints.biggest,
                 child: FittedBox(
                   fit: widget.fit,
-                  child: SizedBox(
-                    width: cameraPreviewSize.width,
-                    height: cameraPreviewSize.height,
-                    child: MobileScannerPlatform.instance.buildCameraView(),
+                  child: GestureDetector(
+                    onDoubleTap: () async => controller.focus(),
+                    child: SizedBox(
+                      width: cameraPreviewSize.width,
+                      height: cameraPreviewSize.height,
+                      child: MobileScannerPlatform.instance.buildCameraView(),
+                    ),
                   ),
                 ),
               ),
