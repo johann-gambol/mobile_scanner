@@ -405,6 +405,15 @@ class MobileScannerController extends ValueNotifier<MobileScannerState> {
     await MobileScannerPlatform.instance.updateScanWindow(window);
   }
 
+  /// Set focus of camera
+  Future<void> focus() async {
+    if(_isDisposed || !value.isRunning){
+      return;
+    }
+
+    await MobileScannerPlatform.instance.focus();
+  }
+
   /// Dispose the controller.
   ///
   /// Once the controller is disposed, it cannot be used anymore.
