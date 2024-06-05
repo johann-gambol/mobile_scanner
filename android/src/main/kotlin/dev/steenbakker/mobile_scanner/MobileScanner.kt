@@ -16,9 +16,12 @@ import android.view.WindowManager
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ExperimentalGetImage
+import androidx.camera.core.FocusMeteringAction
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
+import androidx.camera.core.MeteringPointFactory
 import androidx.camera.core.Preview
+import androidx.camera.core.SurfaceOrientedMeteringPointFactory
 import androidx.camera.core.TorchState
 import androidx.camera.core.resolutionselector.AspectRatioStrategy
 import androidx.camera.core.resolutionselector.ResolutionSelector
@@ -455,6 +458,29 @@ class MobileScanner(
             .addOnFailureListener { e ->
                 onError(e.localizedMessage ?: e.toString())
             }
+    }
+
+    fun focus(){
+
+
+        val factory: MeteringPointFactory = SurfaceOrientedMeteringPointFactory(1f, 1f)
+        val autoFocusPoint = factory.createPoint(.5f, .5f)
+        try{
+            //TODO:
+            if(camera == null) throw ZoomWhenStopped();
+            camera!!.cameraControl.startFocusAndMetering(
+                    FocusMeteringAction.Builder(
+                            autoFocusPoint,
+                            FocusMeteringAction.FLAG_AF,
+                    ).apply {
+                        disableAutoCancel(),
+                    }.build(),
+
+                    )
+        }catch (e: CameraInfoUnavailableException) {
+            Log.d("ERROR", "cannot access camera", e)
+        }
+
     }
 
     /**
