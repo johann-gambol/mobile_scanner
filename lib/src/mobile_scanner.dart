@@ -212,15 +212,18 @@ class _MobileScannerState extends State<MobileScanner>
                 widget.overlayBuilder?.call(context, constraints);
             final Size cameraPreviewSize = value.size;
 
-            final Widget scannerWidget = ClipRect(
-              child: SizedBox.fromSize(
-                size: constraints.biggest,
-                child: FittedBox(
-                  fit: widget.fit,
-                  child: SizedBox(
-                    width: cameraPreviewSize.width,
-                    height: cameraPreviewSize.height,
-                    child: MobileScannerPlatform.instance.buildCameraView(),
+            final Widget scannerWidget = GestureDetector(
+              onDoubleTap: () async => widget.controller?.focus(),
+              child: ClipRect(
+                child: SizedBox.fromSize(
+                  size: constraints.biggest,
+                  child: FittedBox(
+                    fit: widget.fit,
+                    child: SizedBox(
+                      width: cameraPreviewSize.width,
+                      height: cameraPreviewSize.height,
+                      child: MobileScannerPlatform.instance.buildCameraView(),
+                    ),
                   ),
                 ),
               ),
