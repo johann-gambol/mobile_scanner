@@ -180,6 +180,17 @@ class _MobileScannerState extends State<MobileScanner>
     }
   }
 
+  Widget _maybeFocusOnDoubleTap(Widget child){
+    if(controller.setFocusOnDoubleTap){
+      return GestureDetector(
+        onDoubleTap: () async => controller.focus(),
+        child: child,
+      );
+    }
+    return child;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<MobileScannerState>(
@@ -212,36 +223,31 @@ class _MobileScannerState extends State<MobileScanner>
                 widget.overlayBuilder?.call(context, constraints);
             final Size cameraPreviewSize = value.size;
 
-            final Widget scannerWidget = GestureDetector(
-              onDoubleTap: () async => widget.controller?.focus(),
-              child: ClipRect(
-                child: SizedBox.fromSize(
-                  size: constraints.biggest,
-                  child: FittedBox(
-                    fit: widget.fit,
-                    child: SizedBox(
-                      width: cameraPreviewSize.width,
-                      height: cameraPreviewSize.height,
-                      child: MobileScannerPlatform.instance.buildCameraView(),
-                    ),
+            final Widget scannerWidget = ClipRect(
+              child: SizedBox.fromSize(
+                size: constraints.biggest,
+                child: FittedBox(
+                  fit: widget.fit,
+                  child: SizedBox(
+                    width: cameraPreviewSize.width,
+                    height: cameraPreviewSize.height,
+                    child: MobileScannerPlatform.instance.buildCameraView(),
                   ),
                 ),
               ),
             );
 
             if (overlay == null) {
-              return scannerWidget;
+              return _maybeFocusOnDoubleTap(scannerWidget);
             }
 
-            return Stack(
+            return _maybeFocusOnDoubleTap(Stack(
               alignment: Alignment.center,
               children: <Widget>[
                 scannerWidget,
-                GestureDetector(
-                    onDoubleTap: () async => controller.focus(),
-                    child: overlay,
-                ),
+                overlay,
               ],
+             ),
             );
           },
         );
